@@ -1,16 +1,108 @@
-from mido import MidiFile
+from mido import Message, MidiFile, MidiTrack, MetaMessage
 
-mid = MidiFile('00005902.mid', clip=True)
+import mido
+import io
+import re
+
+
+
+fName='00005902'
+
+f = open(fName + '.txt', 'r', encoding="utf-8")
+LyricTxt=f.read()
+f.close()
+
+# print (LyricTxt)
+
+
+LyricSlogi = LyricTxt.replace (' ', ' |')
+LyricSlogi = LyricSlogi.replace ('-', '|')
+LyricSlogi = LyricSlogi.replace ('\n', '\n|')
+LyricSlogi = LyricSlogi.replace ('\n|\r', '\n\r|')
+LyricSlogi = LyricSlogi.split('|')
+
+LyricSlogiSchet=LyricSlogi
+
+
+for slogi in LyricSlogiSchet:
+    if slogi == '' or slogi == '\n': LyricSlogiSchet.remove(slogi)
+for slogi in LyricSlogiSchet:
+    if slogi == '' or slogi == '\n': LyricSlogiSchet.remove(slogi) #странно не все удаляет поэтому 2 раза)
+
+print (LyricSlogiSchet)
+print ('LyricSlogi-len', len(LyricSlogiSchet))
+
+
+
+
+
+mid = MidiFile(fName + '.mid', clip=True)
+
 # print(mid)
 
-for track in mid.tracks:
-    print(track)
+# for track in mid.tracks:
+#     print(track)
 
 # print(mid.tracks[0])
+# сначала проверить наличие лирики и нот в первом треке
+notes = 0
+lyrics = 0
 
 for msg in mid.tracks[1]:
-    if msg.time != 0:
-        if msg.type == 'lyrics': print(msg)
+    if msg.type == 'note_on' and msg.velocity > 0: 
+        # print(msg)
+        notes+=1
+    if msg.type == 'lyrics' and msg.text != '\n' and msg.text != '\r': 
+        # print(msg)
+        lyrics+=1
+    
+
+print(fName, ' notes:', notes,' lyrics:', lyrics)
+
+
+i=0
+
+midiEnd = MidiFile()
+track = MidiTrack()
+midiEnd.tracks.append(mid.tracks[0])
+midiEnd.tracks.append(track)
+
+for msg in mid.tracks[1]:
+    if msg.type != 'lyrics':
+        midiEnd.tracks[1].append(msg)
+        if msg.type == 'note_on' and msg.velocity > 0:
+            midiEnd.tracks[1].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+            if i < len(LyricSlogi)-1:
+                if LyricSlogi[i+1]=='\n' or LyricSlogi[i+1]=='\r':
+                    i+=1
+                    midiEnd.tracks[1].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+                i+=1
+
+# mid.tracks[1]
+
+for track in midiEnd.tracks:
+    print(track)
+
+# 
+midiEnd.save('end1.mid')
+
+# mid = MidiFile()
+# track = MidiTrack()
+# mid.tracks.append(track)
+
+# track.append(Message('program_change', program=12, time=0))
+# track.append(Message('note_on', note=64, velocity=64, time=32))
+# track.append(Message('note_off', note=64, velocity=127, time=32))
+
+# mid.save('new_song.mid')
+
+
+
+
+# mid.save('end.mid')    
+    
+    # if msg.time != 0:
+    #     if msg.type == 'lyrics': print(msg)
 
 
 
