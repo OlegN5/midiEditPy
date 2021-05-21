@@ -3,88 +3,176 @@ from mido import Message, MidiFile, MidiTrack, MetaMessage
 import mido
 import io
 import re
+import os
+
+
+path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
+path0 = path + ''
+
+arr = os.listdir(path)
+# print(arr)
+
+arr_midi = [x for x in arr if x.endswith(".mid")]
+arr_txt = [x for x in arr if x.endswith(".txt")]
+# print("arr_midi",arr_midi)
+# print("arr_txt",arr_txt)
+
+for midiF in arr_txt:
+    midiF=midiF.split('.')
+    fName=midiF[0]
+    # print ('fName',fName)
+
+
+# fName='00005927'
+
+    f = open(path0 + fName + '.txt', 'r', encoding = 'utf-8')
+    LyricTxt=f.read()
+    f.close()
+
+    LyricTxt=LyricTxt.encode('cp1251')
+    # print(LyricTxt)
+    LyricTxt=LyricTxt.decode('latin-1')
+    # print(LyricTxt)
 
 
 
-fName='00005902'
-
-f = open(fName + '.txt', 'r', encoding="utf-8")
-LyricTxt=f.read()
-f.close()
-
-# print (LyricTxt)
+    # print (LyricTxt)
+    # LyricTxt = LyricTxt.encode(encoding = 'utf-8')
+    #LyricTxt = LyricTxt.decode("windows-1251")
 
 
-LyricSlogi = LyricTxt.replace (' ', ' |')
-LyricSlogi = LyricSlogi.replace ('-', '|')
-LyricSlogi = LyricSlogi.replace ('\n', '\n|')
-LyricSlogi = LyricSlogi.replace ('\n|\r', '\n\r|')
-LyricSlogi = LyricSlogi.split('|')
-
-LyricSlogiSchet=LyricSlogi
 
 
-for slogi in LyricSlogiSchet:
-    if slogi == '' or slogi == '\n': LyricSlogiSchet.remove(slogi)
-for slogi in LyricSlogiSchet:
-    if slogi == '' or slogi == '\n': LyricSlogiSchet.remove(slogi) #странно не все удаляет поэтому 2 раза)
+    LyricSlogi = LyricTxt.replace (' ', ' |')
+    LyricSlogi = LyricSlogi.replace ('-', '|')
+    # LyricSlogi = LyricSlogi.replace ('\n\n', '\n\n|')
+    LyricSlogi = LyricSlogi.replace ('\n', '\n|')
 
-print (LyricSlogiSchet)
-print ('LyricSlogi-len', len(LyricSlogiSchet))
+
+    # LyricSlogi = LyricSlogi.replace ('\n|\r', '\n|\r|')
+    # LyricSlogi = LyricSlogi.replace ('\n\n', '\n|\n|')
+
+
+    LyricSlogi = LyricSlogi.split('|')
 
 
 
 
 
-mid = MidiFile(fName + '.mid', clip=True)
 
-# print(mid)
 
-# for track in mid.tracks:
-#     print(track)
+    s4et = len(LyricSlogi)
+    for slogi in LyricSlogi:
+        if slogi == '' or slogi == '\n': s4et-=1
+    # for slogi in LyricSlogi:
+    #     if slogi == '' or slogi == '\n': s4et-=1 #stranno ne wse udaljaet poetomu 2 raza)
 
-# print(mid.tracks[0])
-# сначала проверить наличие лирики и нот в первом треке
-notes = 0
-lyrics = 0
+    # print (LyricSlogiSchet)
+    # print ('LyricSlogi-len', len(LyricSlogiSchet))
 
-for msg in mid.tracks[1]:
-    if msg.type == 'note_on' and msg.velocity > 0: 
-        # print(msg)
-        notes+=1
-    if msg.type == 'lyrics' and msg.text != '\n' and msg.text != '\r': 
-        # print(msg)
-        lyrics+=1
+    # for n in LyricSlogi:
+    #     print (n)
+
+
+
+    mid = MidiFile(path0 + fName + '.mid', clip=True)
+
+    # print(mid)
+
+    # for track in mid.tracks:
+    #     print(track)
+
+    # print(mid.tracks[0])
+    # sna4ala proverit nali4ie not i lyrics v 1 treke
+    notes = 0
+    lyrics = 0
+
+    for msg in mid.tracks[1]:
+        if msg.type == 'note_on' and msg.velocity > 0: 
+            # print(msg)
+            notes+=1
+        if msg.type == 'lyrics' and msg.text != '\n' and msg.text != '\r': 
+            # print(msg)
+            lyrics+=1
+        
+
+
+    i=0
+
+    # midiEnd = MidiFile()
+    track = MidiTrack()
+    # midiEnd.tracks.append(mid.tracks[0])
+    mid.tracks.append(track)
+    # mido.merge_tracks(mid)
+
+
+    lTime=0
+
+    for msg in mid.tracks[1]:
+        print (msg)
+        
+    
+    for msg in mid.tracks[1]:
+        if lTime!=0:
+            msg.time+=lTime
+            lTime=0
+
+        if msg.type == 'lyrics':
+            if msg.time > 0: 
+                lTime = msg.time
+            mid.tracks[1].remove(msg)
+
+        
+
+            
+
+
+
+    for msg in mid.tracks[1]:
+        if msg.type != 'lyrics':
+            mid.tracks[2].append(msg)
+            if msg.type == 'note_on' and msg.velocity > 0:
+                mid.tracks[2].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+                if i < len(LyricSlogi)-1:
+                    if LyricSlogi[i+1]=='\n' or LyricSlogi[i+1]=='\r':
+                        i+=1
+                        
+                        mid.tracks[2].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+                    i+=1
+
+
+    # mid.tracks.remove(mid.tracks[1])
+
+    # print (mid)
+    # print (midiEnd)
     
 
-print(fName, ' notes:', notes,' lyrics:', lyrics)
+
+    f = open('1.txt', 'r+')
+    f.write(str(mid))
+    f.close()
+    # f = open('2.txt', 'r+')
+    # f.write(str(midiEnd))
+    # f.close()
+    
+    quit()
 
 
-i=0
+    # for track in midiEnd.tracks:
+    #     print(track)
 
-midiEnd = MidiFile()
-track = MidiTrack()
-midiEnd.tracks.append(mid.tracks[0])
-midiEnd.tracks.append(track)
 
-for msg in mid.tracks[1]:
-    if msg.type != 'lyrics':
-        midiEnd.tracks[1].append(msg)
-        if msg.type == 'note_on' and msg.velocity > 0:
-            midiEnd.tracks[1].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
-            if i < len(LyricSlogi)-1:
-                if LyricSlogi[i+1]=='\n' or LyricSlogi[i+1]=='\r':
-                    i+=1
-                    midiEnd.tracks[1].append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
-                i+=1
+    # 
+    # print('+++++++++++++++++++++++++++++++')
+    # print (midiEnd.tracks[1])
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print(fName, ' || notes v midi:', notes,' || lyrics v midi:', lyrics, ' || Slogov v txt:', s4et)
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
-# mid.tracks[1]
 
-for track in midiEnd.tracks:
-    print(track)
 
-# 
-midiEnd.save('end1.mid')
+
+    mid.save(path0 + fName + '_0128.mid')
 
 # mid = MidiFile()
 # track = MidiTrack()
@@ -204,3 +292,5 @@ midiEnd.save('end1.mid')
 
 # # Finally, save the mapped file to disk
 # output_midi.save('./Murundu-remap.mid')
+
+
