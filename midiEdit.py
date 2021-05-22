@@ -31,6 +31,7 @@ for midiF in arr_txt:
     f.close()
 
     LyricTxt=LyricTxt.encode('cp1251')
+    
     # print(LyricTxt)
     LyricTxt=LyricTxt.decode('latin-1')
     # print(LyricTxt)
