@@ -7,7 +7,8 @@ import os
 
 
 # path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
-path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
+# path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
+path ='/Users/Oleg/Downloads/new_11.05.2021/audio/'
 path0 = path + ''
 
 arr = os.listdir(path)
@@ -30,11 +31,17 @@ for midiF in arr_txt:
     LyricTxt=f.read()
     f.close()
 
+    print('*******************')
+    print(fName)
+    # print('*******************')
+    # print(LyricTxt)
     LyricTxt=LyricTxt.encode('cp1251')
-    
+    # print('*******************')
     # print(LyricTxt)
     LyricTxt=LyricTxt.decode('latin-1')
+    # print('*******************')
     # print(LyricTxt)
+    # print('*******************')
 
 
 
