@@ -8,7 +8,7 @@ import os
 
 # path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
 # path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
-path ='/Users/Oleg/Downloads/new_11.05.2021/audio/'
+path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
 
 arr = os.listdir(path)
@@ -30,7 +30,9 @@ for midiF in arr_txt:
     f = open(path0 + fName + '.txt', 'r', encoding = 'utf-8')
     LyricTxt=f.read()
     f.close()
-
+    LyricTxt=LyricTxt.strip()
+    LyricTxt=LyricTxt+'\n'
+    LyricTxt=LyricTxt.replace('','')
     print('*******************')
     print(fName)
     # print('*******************')
@@ -74,9 +76,13 @@ for midiF in arr_txt:
     for slogi in LyricSlogi:
         if slogi == '\n': s4et-=1
         if slogi == ' ' or slogi == '': 
-            LyricSlogi.remove(slogi)
+            #LyricSlogi.remove(slogi)
             s4et-=1
-    print (LyricSlogi)        
+
+    # print (LyricSlogi)
+
+
+
     # for slogi in LyricSlogi:
     #     if slogi == '' or slogi == '\n': s4et-=1 #stranno ne wse udaljaet poetomu 2 raza)
 
