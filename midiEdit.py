@@ -8,7 +8,8 @@ import os
 
 # path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
 # path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
-path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
+path ='c:\\Kar\\'
+# path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
 
 arr = os.listdir(path)
@@ -152,7 +153,8 @@ for midiF in arr_txt:
         if msg.type != 'lyrics':
             track2.append(msg)
         if msg.type == 'note_on' and msg.velocity > 0:
-            track2.append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+            if LyricSlogi[i] != '*':###
+                track2.append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
             if i < len(LyricSlogi)-1:
                 if LyricSlogi[i+1]=='\n' or LyricSlogi[i+1]=='\r':
                     i+=1
