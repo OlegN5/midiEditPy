@@ -6,9 +6,9 @@ import re
 import os
 
 
-# path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
+path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
 # path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
-path ='c:\\Kar\\'
+#path ='c:\\Kar\\'
 # path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
 
