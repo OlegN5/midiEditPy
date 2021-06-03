@@ -6,9 +6,9 @@ import re
 import os
 
 
-path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
-# path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
-#path ='c:\\Kar\\'
+# path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
+#path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
+path ='c:\\Kar\\0\\'
 # path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
 
@@ -154,14 +154,22 @@ for midiF in arr_txt:
             track2.append(msg)
         if msg.type == 'note_on' and msg.velocity > 0:
             if LyricSlogi[i] != '*':###
-                track2.append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+                if (LyricSlogi[i][-1:] == '\n'):
+                    track2.append(MetaMessage('lyrics', text=LyricSlogi[i][:-1]+' ', time=0))
+                    track2.append(MetaMessage('lyrics', text=LyricSlogi[i][-1:], time=0))
+                else:
+                    track2.append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
+
             if i < len(LyricSlogi)-1:
                 if LyricSlogi[i+1]=='\n' or LyricSlogi[i+1]=='\r':
                     i+=1
                     track2.append(MetaMessage('lyrics', text=LyricSlogi[i], time=0))
             i+=1  
             if i == len(LyricSlogi): break
-            
+
+
+
+
     mid.tracks.append(track2)
 
     mid.tracks.remove(mid.tracks[1])
@@ -195,10 +203,12 @@ for midiF in arr_txt:
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
     
-    
+    if notes==s4et:
+        mid.save(path0 + fName + '_0128.mid')
+    else:
+        mid.save(path0 + fName + '_NOT_OK.mid')
 
 
-    mid.save(path0 + fName + '_0128.mid')
 
 # mid = MidiFile()
 # track = MidiTrack()
