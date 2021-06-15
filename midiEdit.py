@@ -7,7 +7,8 @@ import os
 
 
 #path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
-path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
+#path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
+path ='/Users/Oleg/Downloads/00098806/audio/'
 #path ='/Volumes/My Passport/Karaoke/new_26.04.2021/errors/audio/'
 #path ='c:\\Kar\\0\\'
 # path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
