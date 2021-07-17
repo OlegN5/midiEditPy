@@ -5,13 +5,18 @@ import io
 import re
 import os
 
+from mutagen.mp3 import MP3
+
+# проверка длительности мп3 и миди -ok
+# проверить наличие темпа больше 250 -ok
+# 
 
 #path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
 #path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
 #path ='/Users/Oleg/Downloads/00098806/audio/'
-path = '/Volumes/My Passport/Karaoke/new_07.06.2021/audio/'
+# path = '/Volumes/My Passport/Karaoke/new_07.06.2021/audio/'
 #path ='/Volumes/My Passport/Karaoke/new_26.04.2021/errors/audio/'
-#path ='c:\\Kar\\0\\'
+path ='c:\\Kar\\'
 # path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
 
@@ -20,67 +25,41 @@ arr = os.listdir(path)
 
 arr_midi = [x for x in arr if x.endswith(".mid")]
 arr_txt = [x for x in arr if x.endswith(".txt")]
-# print("arr_midi",arr_midi)
-# print("arr_txt",arr_txt)
+arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
+
+# print("arr_midi", arr_midi)
+# print("arr_txt", arr_txt)
+# print("arr_ap", arr_ap)
 
 for midiF in arr_txt:
     midiF=midiF.split('.')
     fName=midiF[0]
-    # print ('fName',fName)
-
-
-# fName='00005927'
-
+    
+    ap = MP3(path0 + fName + '_0129.mp3',)
+  
     f = open(path0 + fName + '.txt', 'r', encoding = 'utf-8')
     LyricTxt=f.read()
     f.close()
     LyricTxt=LyricTxt.strip()
     LyricTxt=LyricTxt+'\n'
 
-    # LyricTxt=LyricTxt.replace('','')
-    # LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
-    print('*******************')
-    print(fName)
-    # print('*******************')
-    # print(LyricTxt)
+
     LyricTxt=LyricTxt.encode('cp1251')
-    # print('*******************')
-    # print(LyricTxt)
     LyricTxt=LyricTxt.decode('latin-1')
-    # print('*******************')
-    # print(LyricTxt)
-    # print('*******************')
-
-
-
+   
     # print (LyricTxt)
     # LyricTxt = LyricTxt.encode(encoding = 'utf-8')
     #LyricTxt = LyricTxt.decode("windows-1251")
 
-
-
-
     LyricSlogi = LyricTxt.replace (' ', ' |')
     LyricSlogi = LyricSlogi.replace ('-', '|')
-    # LyricSlogi = LyricSlogi.replace ('\n\n', '\n\n|')
     LyricSlogi = LyricSlogi.replace ('\n', '\n|')
 
-
-    # LyricSlogi = LyricSlogi.replace ('\n|\r', '\n|\r|')
-    # LyricSlogi = LyricSlogi.replace ('\n\n', '\n|\n|')
-
-
     LyricSlogi = LyricSlogi.split('|')
-
-
-
-
-
-
 
     s4et = len(LyricSlogi)
     for slogi in LyricSlogi:
@@ -90,8 +69,6 @@ for midiF in arr_txt:
             s4et-=1
 
     # print (LyricSlogi)
-
-
 
     # for slogi in LyricSlogi:
     #     if slogi == '' or slogi == '\n': s4et-=1 #stranno ne wse udaljaet poetomu 2 raza)
@@ -105,6 +82,20 @@ for midiF in arr_txt:
 
 
     mid = MidiFile(path0 + fName + '.mid', clip=True)
+
+    midLen = mid.length
+
+
+    def get_tempo(mid):
+        tempo = []
+        for msg in mid:     # Search for tempo
+            if msg.type == 'set_tempo':
+                tempo.append (mido.tempo2bpm(msg.tempo))
+        return tempo
+    overTempo = False
+    for tempo in get_tempo(mid):
+        if tempo > 250:
+            overTempo = True
 
     # print(mid)
 
@@ -124,9 +115,6 @@ for midiF in arr_txt:
             # print(msg)
             lyrics+=1
         
-
-
-    
 
     # midiEnd = MidiFile()
     track1 = MidiTrack()
@@ -209,7 +197,15 @@ for midiF in arr_txt:
     # print (midiEnd.tracks[1])
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
     print(fName, ' || notes v midi:', notes,' || lyrics v midi:', lyrics, ' || Slogov v txt:', s4et)
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    if ap.info.length < midLen:
+        print ('MIDI lenght more then mp3!!!')
+    print("apLen", fName + '_0129.mp3', ap.info.length)
+    print("midLen", fName + '.mid', midLen)
+    if overTempo:
+        print('tempo in midi - OVER!!!')
+    print ('changesTempo', get_tempo(mid))
+
+    #print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
     
     if notes==s4et:
