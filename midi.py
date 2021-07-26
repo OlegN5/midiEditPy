@@ -6,7 +6,7 @@ class myMidi():
         self.notes = 0
         self.lyrics = 0
 
-    def midLen(self):
+    def midiLen(self):
         return mido.MidiFile.length
      
     def findTempo250(self):
