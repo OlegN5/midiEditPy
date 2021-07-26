@@ -1,24 +1,29 @@
-from mido import Message, MidiFile, MidiTrack, MetaMessage
 
-import mido
 import io
 import re
 import os
-
+import mido
+from mido import Message, MidiFile, MidiTrack, MetaMessage
 from mutagen.mp3 import MP3
+
+
+
+
 
 # проверка длительности мп3 и миди -ok
 # проверить наличие темпа больше 250 -ok
 # 
 
-#path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
-#path ='e:\\Karaoke\\new_11.05.2021\\audio\\'
-#path ='/Users/Oleg/Downloads/00098806/audio/'
+# path = '/Volumes/My Passport/Karaoke/new_11.05.2021/audio/'
+# path = 'e:\\Karaoke\\new_26.04.2021\\audio\\'
+# path = '/Users/Oleg/Downloads/00098806/audio/'
 # path = '/Volumes/My Passport/Karaoke/new_07.06.2021/audio/'
-#path ='/Volumes/My Passport/Karaoke/new_26.04.2021/errors/audio/'
-path ='c:\\Kar\\'
-# path ='/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
+# path = '/Volumes/My Passport/Karaoke/new_26.04.2021/audio/'
+path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
+# path = 'c:\\Kar\\'
+# path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
+message = ''
 
 arr = os.listdir(path)
 # print(arr)
@@ -34,6 +39,8 @@ arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
 for midiF in arr_txt:
     midiF=midiF.split('.')
     fName=midiF[0]
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print(fName) 
     
     ap = MP3(path0 + fName + '_0129.mp3',)
   
@@ -43,10 +50,18 @@ for midiF in arr_txt:
     LyricTxt=LyricTxt.strip()
     LyricTxt=LyricTxt+'\n'
 
+    if LyricTxt.find('- ') != -1:
+        LyricTxt=LyricTxt.replace('- ','-')
+        message += 'find (- ); '
+        # print (LyricTxt)
+        
+
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
-    LyricTxt=LyricTxt.replace('','')
+    
+
+    # LyricTxt=LyricTxt.replace('- ','-')??????? нужно ли, и как вызвать лог этого метода
 
     LyricTxt=LyricTxt.encode('cp1251')
     LyricTxt=LyricTxt.decode('latin-1')
@@ -61,6 +76,8 @@ for midiF in arr_txt:
 
     LyricSlogi = LyricSlogi.split('|')
 
+    
+        
     s4et = len(LyricSlogi)
     for slogi in LyricSlogi:
         if slogi == '\n': s4et-=1
@@ -79,7 +96,7 @@ for midiF in arr_txt:
     # for n in LyricSlogi:
     #     print (n)
 
-
+    
 
     mid = MidiFile(path0 + fName + '.mid', clip=True)
 
@@ -195,19 +212,23 @@ for midiF in arr_txt:
     # 
     # print('+++++++++++++++++++++++++++++++')
     # print (midiEnd.tracks[1])
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
-    print(fName, ' || notes v midi:', notes,' || lyrics v midi:', lyrics, ' || Slogov v txt:', s4et)
+    
+    if (notes!=s4et):
+        print(' || notes v midi:', notes,' || lyrics v midi:', lyrics, ' || Slogov v txt:', s4et)
     if ap.info.length < midLen:
         print ('MIDI lenght more then mp3!!!')
-    print("apLen", fName + '_0129.mp3', ap.info.length)
-    print("midLen", fName + '.mid', midLen)
+        print("apLen", fName + '_0129.mp3', ap.info.length)
+        print("midLen", fName + '.mid', midLen)
     if overTempo:
         print('tempo in midi - OVER!!!')
-    print ('changesTempo', get_tempo(mid))
+        print ('changesTempo', get_tempo(mid))
+    if message != '':
+        print ('MESSAGES: ', message)
 
-    #print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    # print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
-    
+    message = ''
+
     if notes==s4et:
         mid.save(path0 + fName + '_0128.mid')
     else:
