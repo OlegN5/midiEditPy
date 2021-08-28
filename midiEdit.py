@@ -17,8 +17,9 @@ from mutagen.mp3 import MP3
 # path = 'e:\\Karaoke\\new_26.04.2021\\audio\\'
 # path = '/Users/Oleg/Downloads/00098806/audio/'
 # path = '/Volumes/My Passport/Karaoke/new_07.06.2021/audio/'
+path = 'e:\\Karaoke\\TOP82\\audio\\'
 # path = '/Volumes/My Passport/Karaoke/new_26.04.2021/audio/'
-path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
+# path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 # path = 'c:\\Kar\\'
 # path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path0 = path + ''
@@ -38,7 +39,7 @@ arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
 for midiF in arr_txt:
     midiF=midiF.split('.')
     fName=midiF[0]
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print('++++++++++++++++++++++++++++++++++++++++++++')
     print(fName) 
     
     ap = MP3(path0 + fName + '_0129.mp3',)
@@ -71,6 +72,7 @@ for midiF in arr_txt:
 
     LyricSlogi = LyricTxt.replace (' ', ' |')
     LyricSlogi = LyricSlogi.replace ('-', '|')
+    LyricSlogi = LyricSlogi.replace ('\n\n\n', '\n\n')
     LyricSlogi = LyricSlogi.replace ('\n', '\n|')
 
     LyricSlogi = LyricSlogi.split('|')
@@ -224,7 +226,7 @@ for midiF in arr_txt:
     if message != '':
         print ('MESSAGES: ', message)
 
-    # print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    # print('+++++++++++++++++++++++++++++++++++++++++++++++++')
 
     message = ''
 
