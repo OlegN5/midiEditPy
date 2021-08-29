@@ -22,6 +22,12 @@ path = 'e:\\Karaoke\\TOP82\\audio\\'
 # path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 # path = 'c:\\Kar\\'
 # path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
+# path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
+path = '/Volumes/My Passport/Karaoke/TOP81/audio/'
+# path = '/Users/Oleg/Downloads/133816/audio/'
+# path = '/Volumes/My Passport/Karaoke/TOP80/audio/'
+# path = '/Volumes/My Passport/Karaoke/TOP79/audio/'
+
 path0 = path + ''
 message = ''
 
