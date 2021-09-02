@@ -69,7 +69,7 @@ class myMidi():
 
     def midiSave(self, s4et, path0, fName):
         if self.notes==s4et:
-            self.midiFile.save(path0 + fName + '_0128.mid')
+            self.midiFile.save(path0 + 'render/' + fName + '_0128.mid')
         else:
             self.midiFile.save(path0 + fName + '_NOT_OK.mid')                
         

@@ -57,6 +57,7 @@ for midiF in arr_txt:
 
     LyricSlogi = LyricTxt.replace (' ', ' |')
     LyricSlogi = LyricSlogi.replace ('-', '|')
+    LyricSlogi = LyricSlogi.replace ('\n\n\n', '\n\n')
     LyricSlogi = LyricSlogi.replace ('\n', '\n|')
 
     LyricSlogi = LyricSlogi.split('|')

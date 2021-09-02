@@ -17,13 +17,14 @@ from mutagen.mp3 import MP3
 # path = 'e:\\Karaoke\\new_26.04.2021\\audio\\'
 # path = '/Users/Oleg/Downloads/00098806/audio/'
 # path = '/Volumes/My Passport/Karaoke/new_07.06.2021/audio/'
-path = 'e:\\Karaoke\\TOP82\\audio\\'
+# path = 'e:\\Karaoke\\TOP82\\audio\\'
 # path = '/Volumes/My Passport/Karaoke/new_26.04.2021/audio/'
 # path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 # path = 'c:\\Kar\\'
 # path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
-# path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
-path = '/Volumes/My Passport/Karaoke/TOP81/audio/'
+path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
+path = '/Volumes/My Passport/Karaoke/new_09.07.2021/audio/'
+# path = '/Volumes/My Passport/Karaoke/TOP81/audio/'
 # path = '/Users/Oleg/Downloads/133816/audio/'
 # path = '/Volumes/My Passport/Karaoke/TOP80/audio/'
 # path = '/Volumes/My Passport/Karaoke/TOP79/audio/'
@@ -237,7 +238,7 @@ for midiF in arr_txt:
     message = ''
 
     if notes==s4et:
-        mid.save(path0 + fName + '_0128.mid')
+        mid.save(path0+'render/' + fName + '_0128.mid')
     else:
         mid.save(path0 + fName + '_NOT_OK.mid')
 
