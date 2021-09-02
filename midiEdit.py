@@ -238,7 +238,7 @@ for midiF in arr_txt:
     message = ''
 
     if notes==s4et:
-        mid.save(path0+'render/' + fName + '_0128.mid')
+        mid.save(path0+'render/' + fName + '.mid')
     else:
         mid.save(path0 + fName + '_NOT_OK.mid')
 
