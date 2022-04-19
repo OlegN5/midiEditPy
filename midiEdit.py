@@ -24,10 +24,12 @@ from mutagen.mp3 import MP3
 # path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 path = '/Volumes/My Passport/Karaoke/new_09.07.2021/audio/'
-path = '/Volumes/My Passport/Karaoke/TOP84/audio/'
+
+path = '/Volumes/My Passport/Karaoke/_____19.08.2021 аст/audio/'
 # path = '/Users/Oleg/Downloads/133816/audio/'
 # path = '/Volumes/My Passport/Karaoke/TOP80/audio/'
-# path = '/Volumes/My Passport/Karaoke/TOP79/audio/'
+path = '/Volumes/My Passport/Karaoke/TOP87/audio/'
+path = '/Volumes/My Passport/Karaoke/TOP92/test/'
 
 path0 = path + ''
 message = ''
@@ -62,11 +64,11 @@ for midiF in arr_txt:
         message += 'find (- ); '
         # print (LyricTxt)
         
-
+    
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
-    
+    print (LyricTxt)
 
     # LyricTxt=LyricTxt.replace('- ','-')??????? нужно ли, и как вызвать лог этого метода
 
@@ -76,12 +78,19 @@ for midiF in arr_txt:
     # print (LyricTxt)
     # LyricTxt = LyricTxt.encode(encoding = 'utf-8')
     #LyricTxt = LyricTxt.decode("windows-1251")
+    
+    LyricSlogi = LyricTxt.replace ('  ', ' ') # подстраховка
 
-    LyricSlogi = LyricTxt.replace (' ', ' |')
+    LyricSlogi = LyricSlogi.replace (' \n', '\n')
+    
+
+
+
+    LyricSlogi = LyricSlogi.replace (' ', ' |')
     LyricSlogi = LyricSlogi.replace ('-', '|')
     LyricSlogi = LyricSlogi.replace ('\n\n\n', '\n\n')
     LyricSlogi = LyricSlogi.replace ('\n', '\n|')
-
+    
     LyricSlogi = LyricSlogi.split('|')
 
     
@@ -93,7 +102,7 @@ for midiF in arr_txt:
             #LyricSlogi.remove(slogi)
             s4et-=1
 
-    # print (LyricSlogi)
+    print (LyricSlogi)
 
     # for slogi in LyricSlogi:
     #     if slogi == '' or slogi == '\n': s4et-=1 #stranno ne wse udaljaet poetomu 2 raza)
