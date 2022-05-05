@@ -30,6 +30,7 @@ path = '/Volumes/My Passport/Karaoke/_____19.08.2021 аст/audio/'
 # path = '/Volumes/My Passport/Karaoke/TOP80/audio/'
 path = '/Volumes/My Passport/Karaoke/TOP87/audio/'
 path = '/Volumes/My Passport/Karaoke/TOP92/test/'
+path = 'c:\\Kar\\TOP91\\audio\\'
 
 path0 = path + ''
 message = ''
@@ -68,7 +69,7 @@ for midiF in arr_txt:
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
     LyricTxt=LyricTxt.replace('','')
-    print (LyricTxt)
+    # print (LyricTxt)
 
     # LyricTxt=LyricTxt.replace('- ','-')??????? нужно ли, и как вызвать лог этого метода
 
@@ -102,7 +103,7 @@ for midiF in arr_txt:
             #LyricSlogi.remove(slogi)
             s4et-=1
 
-    print (LyricSlogi)
+    # print (LyricSlogi)
 
     # for slogi in LyricSlogi:
     #     if slogi == '' or slogi == '\n': s4et-=1 #stranno ne wse udaljaet poetomu 2 raza)
