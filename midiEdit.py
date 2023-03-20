@@ -5,6 +5,8 @@ import os
 import mido
 from mido import Message, MidiFile, MidiTrack, MetaMessage
 from mutagen.mp3 import MP3
+import shutil
+from os import path as _path
 
 
 
@@ -21,7 +23,8 @@ from mutagen.mp3 import MP3
 # path = '/Volumes/My Passport/Karaoke/new_26.04.2021/audio/'
 # path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 # path = 'c:\\Kar\\'
-# path = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
+# path 
+# = '/Users/Oleg/Downloads/new_11.05.2021/audio/send3/'
 path = '/Volumes/My Passport/Karaoke/new_27.06.2021/audio/'
 path = '/Volumes/My Passport/Karaoke/new_09.07.2021/audio/'
 
@@ -31,6 +34,12 @@ path = '/Volumes/My Passport/Karaoke/_____19.08.2021 аст/audio/'
 path = '/Volumes/My Passport/Karaoke/TOP87/audio/'
 path = '/Volumes/My Passport/Karaoke/TOP92/test/'
 path = 'c:\\Kar\\TOP91\\audio\\'
+path = '/Users/Oleg/Documents/Kir01/audio/'
+path = '/Volumes/My Passport/Karaoke/TOP93/audio/'
+path='/Volumes/My Passport/Karaoke/TOP105/audio/'
+# path='/Users/Oleg/Documents/TOP104/audio/'
+path = '/Users/Oleg/Downloads/TOP110/audio/'
+
 
 path0 = path + ''
 message = ''
@@ -249,6 +258,22 @@ for midiF in arr_txt:
 
     if notes==s4et:
         mid.save(path0+'render/' + fName + '.mid')
+        source_path1 = str(path0 + fName + '_0058.mp3')
+        source_path2 = str(path0 + fName + '_0129.mp3')
+        source_path3 = str(path0 + fName + '_0135.mp3')
+
+        if _path.exists(source_path1):
+            destination_path = path0+'render/'
+            new_location = shutil.move(source_path1, destination_path)
+        if _path.exists(source_path2):
+            destination_path = path0+'render/'
+            new_location = shutil.move(source_path2, destination_path)
+        if _path.exists(source_path3):
+            destination_path = path0+'render/'
+            new_location = shutil.move(source_path3, destination_path)
+        
+
+
     else:
         mid.save(path0 + fName + '_NOT_OK.mid')
 
