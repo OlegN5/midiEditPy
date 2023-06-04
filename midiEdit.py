@@ -7,6 +7,7 @@ from mido import Message, MidiFile, MidiTrack, MetaMessage
 from mutagen.mp3 import MP3
 import shutil
 from os import path as _path
+import errno 
 
 
 
@@ -39,7 +40,7 @@ path = '/Volumes/My Passport/Karaoke/TOP93/audio/'
 path='/Volumes/My Passport/Karaoke/TOP105/audio/'
 # path='/Users/Oleg/Documents/TOP104/audio/'
 path = '/Users/Oleg/Downloads/TOP110/audio/'
-
+path='/Volumes/My Passport/Karaoke/TOP122/audio/'
 
 path0 = path + ''
 message = ''
@@ -54,6 +55,10 @@ arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
 # print("arr_midi", arr_midi)
 # print("arr_txt", arr_txt)
 # print("arr_ap", arr_ap)
+def make_sure_path_exists(path): 
+            try: os.makedirs(path) 
+            except OSError as exception: 
+                if exception.errno != errno.EEXIST: raise 
 
 for midiF in arr_txt:
     midiF=midiF.split('.')
@@ -257,6 +262,7 @@ for midiF in arr_txt:
     message = ''
 
     if notes==s4et:
+        make_sure_path_exists(path0+'render/')
         mid.save(path0+'render/' + fName + '.mid')
         source_path1 = str(path0 + fName + '_0058.mp3')
         source_path2 = str(path0 + fName + '_0129.mp3')
