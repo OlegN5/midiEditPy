@@ -40,7 +40,7 @@ path = '/Volumes/My Passport/Karaoke/TOP93/audio/'
 path='/Volumes/My Passport/Karaoke/TOP105/audio/'
 # path='/Users/Oleg/Documents/TOP104/audio/'
 path = '/Users/Oleg/Downloads/TOP110/audio/'
-path='/Volumes/My Passport/Karaoke/TOP122/audio/'
+path='/Volumes/My Passport/Karaoke/TOP114/audio/'
 
 path0 = path + ''
 message = ''
@@ -263,10 +263,14 @@ for midiF in arr_txt:
 
     if notes==s4et:
         make_sure_path_exists(path0+'render/')
+        make_sure_path_exists(path0+'done/')
         mid.save(path0+'render/' + fName + '.mid')
         source_path1 = str(path0 + fName + '_0058.mp3')
         source_path2 = str(path0 + fName + '_0129.mp3')
         source_path3 = str(path0 + fName + '_0135.mp3')
+        source_path4 = str(path0 + fName + '.mid')
+        source_path5 = str(path0 + fName + '.txt')
+
 
         if _path.exists(source_path1):
             destination_path = path0+'render/'
@@ -277,6 +281,13 @@ for midiF in arr_txt:
         if _path.exists(source_path3):
             destination_path = path0+'render/'
             new_location = shutil.move(source_path3, destination_path)
+
+        if _path.exists(source_path4):
+            destination_path = path0+'done/'
+            new_location = shutil.move(source_path4, destination_path)
+        if _path.exists(source_path5):
+            destination_path = path0+'done/'
+            new_location = shutil.move(source_path5, destination_path)
         
 
 
