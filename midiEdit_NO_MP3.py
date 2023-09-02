@@ -9,6 +9,9 @@ import shutil
 from os import path as _path
 import errno 
 
+
+
+
 # проверка длительности мп3 и миди -ok
 # проверить наличие темпа больше 250 -ok
 # 
@@ -37,7 +40,7 @@ path = '/Volumes/My Passport/Karaoke/TOP93/audio/'
 path='/Volumes/My Passport/Karaoke/TOP105/audio/'
 # path='/Users/Oleg/Documents/TOP104/audio/'
 path = '/Users/Oleg/Downloads/TOP110/audio/'
-path='/Volumes/My Passport/Karaoke/TOP114/audio/'
+path='/Volumes/My Passport/Karaoke/Clip01/audio/'
 
 path0 = path + ''
 message = ''
@@ -47,7 +50,7 @@ arr = os.listdir(path)
 
 arr_midi = [x for x in arr if x.endswith(".mid")]
 arr_txt = [x for x in arr if x.endswith(".txt")]
-arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
+# arr_ap = [x for x in arr if x.endswith("_0129.mp3")]
 
 # print("arr_midi", arr_midi)
 # print("arr_txt", arr_txt)
@@ -63,7 +66,7 @@ for midiF in arr_txt:
     print('++++++++++++++++++++++++++++++++++++++++++++')
     print(fName) 
     
-    ap = MP3(path0 + fName + '_0129.mp3',)
+    # ap = MP3(path0 + fName + '_0129.mp3',)
   
     f = open(path0 + fName + '.txt', 'r', encoding = 'utf-8')
     LyricTxt=f.read()
@@ -244,10 +247,10 @@ for midiF in arr_txt:
     
     if (notes!=s4et):
         print(' || notes v midi:', notes,' || lyrics v midi:', lyrics, ' || Slogov v txt:', s4et)
-    if ap.info.length < midLen:
-        print ('MIDI lenght more then mp3!!!')
-        print("apLen", fName + '_0129.mp3', ap.info.length)
-        print("midLen", fName + '.mid', midLen)
+    # if ap.info.length < midLen:
+    #     print ('MIDI lenght more then mp3!!!')
+        # print("apLen", fName + '_0129.mp3', ap.info.length)
+        # print("midLen", fName + '.mid', midLen)
     if overTempo:
         print('tempo in midi - OVER!!!')
         print ('changesTempo', get_tempo(mid))
@@ -262,22 +265,22 @@ for midiF in arr_txt:
         make_sure_path_exists(path0+'render/')
         make_sure_path_exists(path0+'done/')
         mid.save(path0+'render/' + fName + '.mid')
-        source_path1 = str(path0 + fName + '_0058.mp3')
-        source_path2 = str(path0 + fName + '_0129.mp3')
-        source_path3 = str(path0 + fName + '_0135.mp3')
+        # source_path1 = str(path0 + fName + '_0058.mp3')
+        # source_path2 = str(path0 + fName + '_0129.mp3')
+        # source_path3 = str(path0 + fName + '_0135.mp3')
         source_path4 = str(path0 + fName + '.mid')
         source_path5 = str(path0 + fName + '.txt')
 
 
-        if _path.exists(source_path1):
-            destination_path = path0+'render/'
-            new_location = shutil.move(source_path1, destination_path)
-        if _path.exists(source_path2):
-            destination_path = path0+'render/'
-            new_location = shutil.move(source_path2, destination_path)
-        if _path.exists(source_path3):
-            destination_path = path0+'render/'
-            new_location = shutil.move(source_path3, destination_path)
+        # if _path.exists(source_path1):
+        #     destination_path = path0+'render/'
+        #     new_location = shutil.move(source_path1, destination_path)
+        # if _path.exists(source_path2):
+        #     destination_path = path0+'render/'
+        #     new_location = shutil.move(source_path2, destination_path)
+        # if _path.exists(source_path3):
+        #     destination_path = path0+'render/'
+        #     new_location = shutil.move(source_path3, destination_path)
 
         if _path.exists(source_path4):
             destination_path = path0+'done/'
